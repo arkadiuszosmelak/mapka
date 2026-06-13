@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "674272643654",
+    "project_id": "mapka-4d5e6",
+    "storage_bucket": "mapka-4d5e6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674272643654:android:ec10a3b0622036f7181847",
+        "android_client_info": {
+          "package_name": "com.croxoner.mapka"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk7CiRvrWDbQxEo9QNpxYV-8HxEH-DqdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674272643654:android:32762ce01a830bc0181847",
+        "android_client_info": {
+          "package_name": "com.croxoner.mapka.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk7CiRvrWDbQxEo9QNpxYV-8HxEH-DqdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674272643654:android:679e03cda560a8a0181847",
+        "android_client_info": {
+          "package_name": "com.croxoner.mapka.staging"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk7CiRvrWDbQxEo9QNpxYV-8HxEH-DqdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

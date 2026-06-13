@@ -1,0 +1,32 @@
+{
+  "@@locale": "en",
+  "app_ok": "OK",
+  "@app_ok": {
+    "description": "Generic confirm action."
+  },
+  "app_cancel": "Cancel",
+  "@app_cancel": {
+    "description": "Generic cancel action."
+  },
+  "app_retry": "Try again",
+  "@app_retry": {
+    "description": "Retry action shown on error states."
+  },
+  "app_error_generic": "Something went wrong. Please try again.",
+  "@app_error_generic": {
+    "description": "Fallback message for unexpected errors."
+  },
+  "f_onboarding_skip": "Skip",
+  "f_onboarding_next": "Next",
+  "f_onboarding_get_started": "Get started",
+  "f_onboarding_step_explore_title": "Explore the map",
+  "f_onboarding_step_explore_description": "Discover places around you with a fast, fluid map experience.",
+  "f_onboarding_step_save_title": "Save your spots",
+  "f_onboarding_step_save_description": "Keep your favourite places one tap away, online or offline.",
+  "f_onboarding_step_share_title": "Share with friends",
+  "f_onboarding_step_share_description": "Send routes and pins to the people you travel with.",
+  "f_onboarding_permissions_title": "Enable location",
+  "f_onboarding_permissions_body": "Location lets us center the map on you and suggest nearby places. You can change this anytime in settings.",
+  "f_onboarding_permissions_allow": "Allow location",
+  "f_onboarding_permissions_not_now": "Not now"
+}

@@ -1,0 +1,20 @@
+{
+  "@@locale": "pl",
+  "app_ok": "OK",
+  "app_cancel": "Anuluj",
+  "app_retry": "Spróbuj ponownie",
+  "app_error_generic": "Coś poszło nie tak. Spróbuj ponownie.",
+  "f_onboarding_skip": "Pomiń",
+  "f_onboarding_next": "Dalej",
+  "f_onboarding_get_started": "Zaczynajmy",
+  "f_onboarding_step_explore_title": "Odkrywaj mapę",
+  "f_onboarding_step_explore_description": "Odkrywaj miejsca wokół siebie dzięki szybkiej i płynnej mapie.",
+  "f_onboarding_step_save_title": "Zapisuj miejsca",
+  "f_onboarding_step_save_description": "Trzymaj ulubione miejsca pod ręką — online i offline.",
+  "f_onboarding_step_share_title": "Dziel się ze znajomymi",
+  "f_onboarding_step_share_description": "Wysyłaj trasy i pinezki osobom, z którymi podróżujesz.",
+  "f_onboarding_permissions_title": "Włącz lokalizację",
+  "f_onboarding_permissions_body": "Lokalizacja pozwala wyśrodkować mapę na Tobie i proponować pobliskie miejsca. Możesz to zmienić w ustawieniach.",
+  "f_onboarding_permissions_allow": "Zezwól na lokalizację",
+  "f_onboarding_permissions_not_now": "Nie teraz"
+}

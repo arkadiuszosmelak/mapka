@@ -1,0 +1,51 @@
+name: mapka
+
+packages:
+  - modules/**
+
+ignore:
+  - modules/**/example
+  # Template copied by tools/create_module.sh; not a real workspace package.
+  - modules/module_template
+
+command:
+  bootstrap:
+    # Use path dependencies between local packages (no pub workspace).
+    usePubspecOverrides: true
+
+scripts:
+  bs:
+    description: Bootstrap all packages (install deps + link local packages).
+    run: melos bootstrap
+
+  get:
+    description: flutter pub get in every package.
+    run: melos exec -- flutter pub get
+
+  gen:
+    description: Run build_runner in every package that needs codegen.
+    run: melos exec --depends-on=build_runner -- dart run build_runner build --delete-conflicting-outputs
+
+  intl:
+    description: Generate localization classes (intl_utils) in every package that uses it.
+    run: melos exec --depends-on=intl_utils -- dart run intl_utils:generate
+
+  analyze:
+    description: Static analysis across all packages (zero warnings allowed).
+    run: melos exec -- flutter analyze --fatal-infos
+
+  test:
+    description: Run tests in packages that have a test/ directory.
+    run: melos exec --dir-exists=test -- flutter test
+
+  coverage:
+    description: Run tests with coverage in packages that have a test/ directory.
+    run: melos exec --dir-exists=test -- flutter test --coverage
+
+  fmt:
+    description: Format all Dart code (page width 120).
+    run: melos exec -- dart format . --page-width=120
+
+  clean:
+    description: flutter clean in every package.
+    run: melos exec -- flutter clean

@@ -1,0 +1,28 @@
+# Dart / Flutter
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+**/pubspec_overrides.yaml
+
+# Generated code (regenerate with `melos gen` / `melos intl`)
+**/*.g.dart
+**/*.config.dart
+**/*.module.dart
+**/*.mocks.dart
+**/*.gen.dart
+**/generated/
+
+# Coverage
+coverage/
+*.lcov
+
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# FVM
+.fvm/

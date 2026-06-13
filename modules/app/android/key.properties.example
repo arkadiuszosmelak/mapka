@@ -1,0 +1,8 @@
+# Copy to key.properties (gitignored) and fill in. Used by app/build.gradle.kts
+# to sign release builds. In CI this file is recreated from GitHub Secrets.
+#
+# storeFile is resolved relative to modules/app/android/app/.
+storePassword=your-store-password
+keyPassword=your-key-password
+keyAlias=mapka-alias
+storeFile=mapka-release.jks

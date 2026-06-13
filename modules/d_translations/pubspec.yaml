@@ -1,0 +1,30 @@
+name: d_translations
+description: Single source of truth for all translations (ARB + intl_utils). Used by every module.
+publish_to: none
+version: 0.0.1
+
+environment:
+  sdk: ">=3.6.0 <4.0.0"
+  flutter: ">=3.24.0"
+
+dependencies:
+  core:
+    path: ../core
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  intl_utils: ^2.8.16
+
+# intl_utils generates lib/generated/** -> `Strings` class. Run `melos intl`.
+flutter_intl:
+  enabled: true
+  class_name: Strings
+  main_locale: en
+  arb_dir: lib/l10n
+  output_dir: lib/generated

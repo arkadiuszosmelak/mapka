@@ -1,0 +1,9 @@
+name: mapka_workspace
+description: Melos-managed Flutter monorepo (workspace root, not a publishable package).
+publish_to: none
+
+environment:
+  sdk: ">=3.6.0 <4.0.0"
+
+dev_dependencies:
+  melos: ^6.0.0

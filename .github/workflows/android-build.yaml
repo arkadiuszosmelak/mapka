@@ -1,0 +1,109 @@
+name: Android build
+
+# Builds a signed release APK per flavor and uploads it as a run artifact.
+# Run manually (pick a flavor) or automatically on version tags.
+on:
+  workflow_dispatch:
+    inputs:
+      flavor:
+        description: Flavor to build
+        type: choice
+        default: dev
+        options: [dev, staging, prod]
+  push:
+    tags: ["v*"]
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    # Exposed as env so steps can gate on its presence (secrets aren't allowed
+    # directly in step `if:` expressions).
+    env:
+      FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+    strategy:
+      matrix:
+        # Manual runs build the chosen flavor; tag pushes build all three.
+        flavor: ${{ github.event_name == 'workflow_dispatch' && fromJSON(format('["{0}"]', github.event.inputs.flavor)) || fromJSON('["dev","staging","prod"]') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read Flutter version
+        id: fvm
+        run: echo "version=$(tr -d '\"[:space:]' < .fvmrc)" >> "$GITHUB_OUTPUT"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.fvm.outputs.version }}
+          channel: stable
+          cache: true
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Cache pub
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: pub-${{ runner.os }}-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: pub-${{ runner.os }}-
+
+      - name: Activate Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap + codegen
+        run: |
+          melos bootstrap
+          melos intl
+          melos gen
+
+      - name: Set up release signing
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        if: env.KEYSTORE_BASE64 != ''
+        working-directory: modules/app/android
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 --decode > app/mapka-release.jks
+          cat > key.properties <<EOF
+          storePassword=$STORE_PASSWORD
+          keyPassword=$KEY_PASSWORD
+          keyAlias=$KEY_ALIAS
+          storeFile=mapka-release.jks
+          EOF
+
+      - name: Build APK (${{ matrix.flavor }})
+        working-directory: modules/app
+        run: flutter build apk --flavor ${{ matrix.flavor }} -t lib/main_${{ matrix.flavor }}.dart --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: mapka-${{ matrix.flavor }}-apk
+          path: modules/app/build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-release.apk
+          retention-days: 30
+          if-no-files-found: error
+
+      # --- Firebase App Distribution (dev/staging only; prod goes to Play) ---
+      - name: Resolve Firebase App ID
+        id: firebase
+        if: matrix.flavor != 'prod' && env.FIREBASE_SERVICE_ACCOUNT != ''
+        run: |
+          PKG="com.croxoner.mapka.${{ matrix.flavor }}"
+          APP_ID=$(jq -r --arg pkg "$PKG" \
+            '.client[] | select(.client_info.android_client_info.package_name==$pkg) | .client_info.mobilesdk_app_id' \
+            modules/app/android/app/google-services.json)
+          echo "app_id=$APP_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Distribute to Firebase App Distribution
+        if: matrix.flavor != 'prod' && env.FIREBASE_SERVICE_ACCOUNT != ''
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ steps.firebase.outputs.app_id }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          groups: testers
+          file: modules/app/build/app/outputs/flutter-apk/app-${{ matrix.flavor }}-release.apk
+          releaseNotes: "${{ matrix.flavor }} · ${{ github.ref_name }} · ${{ github.sha }}"
