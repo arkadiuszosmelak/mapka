@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:f_home/f_home.dart';
 import 'package:f_onboarding/f_onboarding.dart';
 
 /// Every module the app ships. Add new modules here (and their route subtree
@@ -6,4 +7,5 @@ import 'package:f_onboarding/f_onboarding.dart';
 /// this list automatically.
 const List<ModuleManifest> appModules = <ModuleManifest>[
   OnboardingModule(),
+  HomeModule(),
 ];

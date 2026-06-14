@@ -14,6 +14,8 @@ dependencies:
     path: ../d_translations
   design_system:
     path: ../design_system
+  f_home:
+    path: ../f_home
   f_onboarding:
     path: ../f_onboarding
   firebase_core: ^4.10.0

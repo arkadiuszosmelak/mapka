@@ -2,8 +2,7 @@ import 'package:d_translations/d_translations.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 
-/// Placeholder destination after onboarding completes. Replace with a real
-/// feature module (e.g. `f_home`) generated via `tools/create_module.sh`.
+/// Landing screen shown after onboarding completes.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -18,7 +17,7 @@ class HomePage extends StatelessWidget {
             Icon(Icons.map_outlined, size: 72, color: context.colors.primary),
             SizedBox(height: context.spacing.l),
             Text(
-              context.strings.app_ok,
+              context.strings.f_home_title,
               style: context.typography.titleLarge.copyWith(color: context.colors.onBackground),
             ),
           ],

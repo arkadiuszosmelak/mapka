@@ -14,6 +14,13 @@ build/
 **/*.gen.dart
 **/generated/
 
+# Secrets — NEVER commit (these live in GitHub Secrets / locally only)
+**/*-firebase-adminsdk-*.json
+**/serviceAccount*.json
+**/*.jks
+**/*.keystore
+**/key.properties
+
 # Coverage
 coverage/
 *.lcov

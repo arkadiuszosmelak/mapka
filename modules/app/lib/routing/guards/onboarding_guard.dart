@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:app/routing/app_routes.dart';
 import 'package:core/core.dart';
+import 'package:f_home/f_home.dart';
 import 'package:f_onboarding/f_onboarding.dart';
 import 'package:go_router/go_router.dart' hide NavigationCallback;
 import 'package:injectable/injectable.dart';
@@ -9,8 +9,8 @@ import 'package:injectable/injectable.dart';
 /// Skips onboarding once it has been completed: any onboarding route redirects
 /// to home.
 ///
-/// Lives in the app because the post-onboarding destination ([AppRoutes.home])
-/// is an app-shell concern, while the completion flag comes from the onboarding
+/// Lives in the app because cross-module flow (onboarding → home) is an
+/// app-shell concern, while the completion flag comes from the onboarding
 /// feature's service.
 @injectable
 class OnboardingGuard extends RouteGuard {
@@ -28,6 +28,6 @@ class OnboardingGuard extends RouteGuard {
     }
 
     final bool completed = await _onboardingService.isCompleted();
-    return completed ? AppRoutes.home : null;
+    return completed ? HomeRoutes.home : null;
   }
 }

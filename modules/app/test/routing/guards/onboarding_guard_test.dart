@@ -1,6 +1,6 @@
-import 'package:app/routing/app_routes.dart';
 import 'package:app/routing/guards/onboarding_guard.dart';
 import 'package:core/core.dart';
+import 'package:f_home/f_home.dart';
 import 'package:f_onboarding/f_onboarding.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -33,7 +33,7 @@ void main() {
 
     final RouteDefinition? result = await guard(stateAt(OnboardingRoutes.intro.path));
 
-    expect(result, AppRoutes.home);
+    expect(result, HomeRoutes.home);
   });
 
   test('allows onboarding while it is not completed', () async {
@@ -45,7 +45,7 @@ void main() {
   });
 
   test('ignores routes outside onboarding without touching the service', () async {
-    final RouteDefinition? result = await guard(stateAt(AppRoutes.home.path));
+    final RouteDefinition? result = await guard(stateAt(HomeRoutes.home.path));
 
     expect(result, isNull);
     verifyNever(service.isCompleted());

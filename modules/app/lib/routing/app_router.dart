@@ -1,16 +1,13 @@
 import 'package:app/modules.dart';
 import 'package:app/presentation/error/route_error_page.dart';
-import 'package:app/presentation/home/home_page.dart';
-import 'package:app/routing/app_routes.dart';
 import 'package:app/routing/guards/onboarding_guard.dart';
 import 'package:core/core.dart';
+import 'package:f_home/f_home.dart';
 import 'package:f_onboarding/f_onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart' hide NavigationCallback;
 import 'package:injectable/injectable.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-
-export 'package:app/routing/app_routes.dart';
 
 /// Builds and owns the root [GoRouter]. Registered in DI so other layers can
 /// navigate via the [rootNavigatorKey] without reaching into widget context.
@@ -70,13 +67,9 @@ class AppRouter {
       },
       routes: <RouteBase>[
         ...getOnboardingSubtree(
-          onCompleted: (BuildContext ctx) => ctx.goNamed(AppRoutes.home.name),
+          onCompleted: (BuildContext ctx) => ctx.goNamed(HomeRoutes.home.name),
         ),
-        GoRoute(
-          path: AppRoutes.home.path,
-          name: AppRoutes.home.name,
-          builder: (BuildContext context, GoRouterState state) => const HomePage(),
-        ),
+        ...getHomeSubtree(),
       ],
     );
   }

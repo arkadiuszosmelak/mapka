@@ -16,5 +16,6 @@
   "f_onboarding_permissions_title": "Włącz lokalizację",
   "f_onboarding_permissions_body": "Lokalizacja pozwala wyśrodkować mapę na Tobie i proponować pobliskie miejsca. Możesz to zmienić w ustawieniach.",
   "f_onboarding_permissions_allow": "Zezwól na lokalizację",
-  "f_onboarding_permissions_not_now": "Nie teraz"
+  "f_onboarding_permissions_not_now": "Nie teraz",
+  "f_home_title": "Witaj w Mapce"
 }

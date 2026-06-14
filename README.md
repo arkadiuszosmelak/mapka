@@ -14,6 +14,7 @@ and per-module localization.
 | `design_system`  | Design System | `core`                           | Design tokens (`context.colors/…`) + `Dor*` widgets  |
 | `d_translations` | Data (`d_`)   | `core`                           | **All** translations (`Strings`, `context.strings`)  |
 | `f_onboarding`   | Feature (`f_`)| `core`, `design_system`          | Onboarding flow (intro carousel + permissions)       |
+| `f_home`         | Feature (`f_`)| `core`, `design_system`, `d_translations` | Post-onboarding landing screen              |
 | `module_template`| —             | `core`, `design_system`          | Template copied by `tools/create_module.sh`          |
 
 Dependency rules (enforced by convention; see the foundations doc): features

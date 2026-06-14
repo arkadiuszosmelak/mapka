@@ -28,5 +28,6 @@
   "f_onboarding_permissions_title": "Enable location",
   "f_onboarding_permissions_body": "Location lets us center the map on you and suggest nearby places. You can change this anytime in settings.",
   "f_onboarding_permissions_allow": "Allow location",
-  "f_onboarding_permissions_not_now": "Not now"
+  "f_onboarding_permissions_not_now": "Not now",
+  "f_home_title": "Welcome to Mapka"
 }

@@ -1,0 +1,23 @@
+name: f_home
+description: Home feature module — the post-onboarding landing screen.
+publish_to: none
+version: 0.0.1
+
+environment:
+  sdk: ">=3.6.0 <4.0.0"
+  flutter: ">=3.24.0"
+
+dependencies:
+  core:
+    path: ../core
+  d_translations:
+    path: ../d_translations
+  design_system:
+    path: ../design_system
+  flutter:
+    sdk: flutter
+  go_router: ^17.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
