@@ -1,4 +1,3 @@
-
 abstract final class MapboxConfig {
   static const String accessToken = String.fromEnvironment('MAPBOX_ACCESS_TOKEN');
 

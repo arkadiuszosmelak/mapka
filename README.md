@@ -1,7 +1,7 @@
 # Mapka
 
 Flutter **monorepo** (Melos) built on the conventions in
-[`project_fundations.md`](project_fundations.md): pragmatic Clean Architecture,
+[`project_foundations.md`](project_foundations.md): pragmatic Clean Architecture,
 Bloc/Cubit + hooks, Injectable + GetIt, GoRouter, a token-based design system,
 and per-module localization.
 
