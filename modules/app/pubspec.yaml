@@ -10,6 +10,8 @@ environment:
 dependencies:
   core:
     path: ../core
+  d_location:
+    path: ../d_location
   d_translations:
     path: ../d_translations
   design_system:
