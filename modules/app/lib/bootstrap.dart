@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
 
 /// Shared startup for every flavor entry point (`main_dev.dart` etc.).
@@ -26,6 +27,10 @@ void bootstrap(AppFlavor flavor) {
 
       await configureDependencies(flavor: flavor, modules: appModules);
       await Firebase.initializeApp();
+
+      if (MapboxConfig.hasToken) {
+        MapboxOptions.setAccessToken(MapboxConfig.accessToken);
+      }
 
       final ErrorReporter errorReporter = getIt<ErrorReporter>();
       // No crash collection in debug — keeps the Crashlytics console clean.

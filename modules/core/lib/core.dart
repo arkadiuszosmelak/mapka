@@ -16,6 +16,7 @@ export 'src/architecture/base_cubit.dart';
 export 'src/architecture/module_manifest.dart';
 export 'src/architecture/route_definition.dart';
 export 'src/architecture/route_guard.dart';
+export 'src/config/mapbox_config.dart';
 export 'src/error/app_error.dart';
 export 'src/error/error_reporter.dart';
 export 'src/flavor/app_flavor.dart';

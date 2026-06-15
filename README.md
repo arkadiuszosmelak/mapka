@@ -1,7 +1,7 @@
 # Mapka
 
 Flutter **monorepo** (Melos) built on the conventions in
-[`project_fundations.md`](project_fundations.md): pragmatic Clean Architecture,
+[`project_foundations.md`](project_foundations.md): pragmatic Clean Architecture,
 Bloc/Cubit + hooks, Injectable + GetIt, GoRouter, a token-based design system,
 and per-module localization.
 
@@ -124,6 +124,22 @@ In CI the keystore + `key.properties` are recreated from these GitHub Secrets:
 | `ANDROID_KEY_PASSWORD` | key password |
 | `ANDROID_KEY_ALIAS` | `mapka-alias` |
 | `FIREBASE_SERVICE_ACCOUNT` | service-account JSON (App Distribution); optional |
+| `MAPBOX_DOWNLOADS_TOKEN` | Mapbox secret `sk.` token (build-time SDK download) |
+| `MAPBOX_ACCESS_TOKEN` | Mapbox public `pk.` token (runtime, via `--dart-define`) |
+
+## Mapbox tokens
+
+Two different tokens, two different homes (neither committed):
+
+- **`sk.` download token** (build-time, secret) → `~/.gradle/gradle.properties`
+  as `MAPBOX_DOWNLOADS_TOKEN` locally; GitHub Secret of the same name in CI.
+  Needed to fetch the native Mapbox SDK.
+- **`pk.` access token** (runtime) → `modules/app/config/<flavor>.json`
+  (gitignored; copy `config/example.json`), read in Dart via
+  `MapboxConfig.accessToken` (`String.fromEnvironment`) and applied in
+  `bootstrap`. Launch configs pass `--dart-define-from-file=config/<flavor>.json`;
+  CI passes it from the `MAPBOX_ACCESS_TOKEN` secret. Restrict this token in the
+  Mapbox dashboard (URL / package / SHA).
 
 ## CI
 

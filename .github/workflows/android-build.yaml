@@ -79,9 +79,23 @@ jobs:
           storeFile=mapka-release.jks
           EOF
 
+      - name: Mapbox downloads token
+        env:
+          MAPBOX_DOWNLOADS_TOKEN: ${{ secrets.MAPBOX_DOWNLOADS_TOKEN }}
+        run: |
+          mkdir -p ~/.gradle
+          echo "MAPBOX_DOWNLOADS_TOKEN=$MAPBOX_DOWNLOADS_TOKEN" >> ~/.gradle/gradle.properties
+
       - name: Build APK (${{ matrix.flavor }})
         working-directory: modules/app
-        run: flutter build apk --flavor ${{ matrix.flavor }} -t lib/main_${{ matrix.flavor }}.dart --release
+        env:
+          MAPBOX_ACCESS_TOKEN: ${{ secrets.MAPBOX_ACCESS_TOKEN }}
+        run: |
+          flutter build apk \
+            --flavor ${{ matrix.flavor }} \
+            -t lib/main_${{ matrix.flavor }}.dart \
+            --release \
+            --dart-define=MAPBOX_ACCESS_TOKEN=$MAPBOX_ACCESS_TOKEN
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
