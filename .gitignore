@@ -21,6 +21,10 @@ build/
 **/*.keystore
 **/key.properties
 
+# Runtime dart-define config (Mapbox pk token etc.) — keep only the example.
+/modules/app/config/*.json
+!/modules/app/config/example.json
+
 # Coverage
 coverage/
 *.lcov

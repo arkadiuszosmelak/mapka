@@ -17,6 +17,7 @@ dependencies:
   flutter:
     sdk: flutter
   go_router: ^17.3.0
+  mapbox_maps_flutter: ^2.25.0
 
 dev_dependencies:
   flutter_test:
