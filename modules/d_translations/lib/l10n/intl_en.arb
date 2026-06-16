@@ -16,6 +16,10 @@
   "@app_error_generic": {
     "description": "Fallback message for unexpected errors."
   },
+  "app_open_settings": "Settings",
+  "@app_open_settings": {
+    "description": "Action that opens the system app settings."
+  },
   "f_onboarding_skip": "Skip",
   "f_onboarding_next": "Next",
   "f_onboarding_get_started": "Get started",
@@ -29,5 +33,21 @@
   "f_onboarding_permissions_body": "Location lets us center the map on you and suggest nearby places. You can change this anytime in settings.",
   "f_onboarding_permissions_allow": "Allow location",
   "f_onboarding_permissions_not_now": "Not now",
-  "f_home_title": "Welcome to Mapka"
+  "f_home_title": "Welcome to Mapka",
+  "f_home_location_denied": "We need location access to show where you are.",
+  "@f_home_location_denied": {
+    "description": "Snackbar shown when the location permission is denied on the map."
+  },
+  "f_home_location_disabled": "Location services are turned off. Turn them on to see your position.",
+  "@f_home_location_disabled": {
+    "description": "Snackbar shown when device location services are disabled."
+  },
+  "f_home_recenter": "Center on my location",
+  "@f_home_recenter": {
+    "description": "Tooltip for the button that re-centers the map on the user."
+  },
+  "f_home_locating": "Finding your location…",
+  "@f_home_locating": {
+    "description": "Shown in a small indicator while the first location fix is acquired."
+  }
 }

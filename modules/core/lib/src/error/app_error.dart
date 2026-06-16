@@ -30,6 +30,23 @@ final class SerializationError extends AppError {
   const SerializationError(super.message, {super.cause, super.stackTrace});
 }
 
+/// Location services are disabled, or the user denied the location permission.
+final class LocationError extends AppError {
+  const LocationError(
+    super.message, {
+    this.servicesDisabled = false,
+    this.permanentlyDenied = false,
+    super.cause,
+    super.stackTrace,
+  });
+
+  /// Services switched off entirely, as opposed to the permission being denied.
+  final bool servicesDisabled;
+
+  /// Denied for good (`deniedForever`) — send the user to settings, don't re-prompt.
+  final bool permanentlyDenied;
+}
+
 /// Anything we did not anticipate. Always reported to crash reporting.
 final class UnknownError extends AppError {
   const UnknownError(super.message, {super.cause, super.stackTrace});

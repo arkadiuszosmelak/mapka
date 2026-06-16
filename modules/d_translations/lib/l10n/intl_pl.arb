@@ -4,6 +4,7 @@
   "app_cancel": "Anuluj",
   "app_retry": "Spróbuj ponownie",
   "app_error_generic": "Coś poszło nie tak. Spróbuj ponownie.",
+  "app_open_settings": "Ustawienia",
   "f_onboarding_skip": "Pomiń",
   "f_onboarding_next": "Dalej",
   "f_onboarding_get_started": "Zaczynajmy",
@@ -17,5 +18,9 @@
   "f_onboarding_permissions_body": "Lokalizacja pozwala wyśrodkować mapę na Tobie i proponować pobliskie miejsca. Możesz to zmienić w ustawieniach.",
   "f_onboarding_permissions_allow": "Zezwól na lokalizację",
   "f_onboarding_permissions_not_now": "Nie teraz",
-  "f_home_title": "Witaj w Mapce"
+  "f_home_title": "Witaj w Mapce",
+  "f_home_location_denied": "Potrzebujemy dostępu do lokalizacji, aby pokazać, gdzie jesteś.",
+  "f_home_location_disabled": "Usługi lokalizacji są wyłączone. Włącz je, aby zobaczyć swoją pozycję.",
+  "f_home_recenter": "Wyśrodkuj na mojej lokalizacji",
+  "f_home_locating": "Ustalanie lokalizacji…"
 }
