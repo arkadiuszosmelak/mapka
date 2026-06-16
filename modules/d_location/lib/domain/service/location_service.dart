@@ -5,8 +5,6 @@ abstract interface class LocationService {
   /// Requests "when in use" permission; fails with a [LocationError].
   Future<Result<bool>> ensurePermission();
 
-  Future<Result<UserLocation>> currentLocation();
-
   /// OS-cached position, near-instant; `null` if none is available.
   Future<UserLocation?> lastKnownLocation();
 

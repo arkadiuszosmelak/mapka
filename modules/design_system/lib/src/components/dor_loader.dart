@@ -1,14 +1,15 @@
 import 'package:design_system/src/theme/design_system_theme.dart';
 import 'package:flutter/material.dart';
 
-/// Centered, brand-colored progress indicator.
 class DorLoader extends StatelessWidget {
-  const DorLoader({super.key});
+  final double? strokeWidth;
+  const DorLoader({this.strokeWidth, super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: CircularProgressIndicator(color: context.colors.primary),
-    );
-  }
+  Widget build(BuildContext context) => Center(
+        child: CircularProgressIndicator(
+          strokeWidth: strokeWidth,
+          color: context.colors.primary,
+        ),
+      );
 }

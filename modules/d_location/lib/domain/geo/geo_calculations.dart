@@ -1,23 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:d_location/domain/geo/geo_box.dart';
-
 const double _earthRadiusMeters = 6371000;
-const double _metersPerLatDegree = 111320;
-
-/// Square [GeoBox] of side [spanMeters] around the point. Flat-earth
-/// approximation — fine for the few-km spans this is used for.
-GeoBox boxAround(double latitude, double longitude, double spanMeters) {
-  final double halfSpan = spanMeters / 2;
-  final double latDelta = halfSpan / _metersPerLatDegree;
-  final double lngDelta = halfSpan / (_metersPerLatDegree * math.cos(_radians(latitude)));
-  return GeoBox(
-    minLatitude: latitude - latDelta,
-    minLongitude: longitude - lngDelta,
-    maxLatitude: latitude + latDelta,
-    maxLongitude: longitude + lngDelta,
-  );
-}
 
 /// Great-circle distance in meters (haversine).
 double distanceMeters(double latitude1, double longitude1, double latitude2, double longitude2) {

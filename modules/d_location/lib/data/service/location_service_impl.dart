@@ -42,18 +42,6 @@ class LocationServiceImpl implements LocationService {
   }
 
   @override
-  Future<Result<UserLocation>> currentLocation() async {
-    try {
-      final Position position = await Geolocator.getCurrentPosition();
-      return Result<UserLocation>.success(position.toDomain());
-    } catch (error, stackTrace) {
-      return Result<UserLocation>.failure(
-        LocationError('Failed to read the current location.', cause: error, stackTrace: stackTrace),
-      );
-    }
-  }
-
-  @override
   Future<UserLocation?> lastKnownLocation() async {
     try {
       final Position? position = await Geolocator.getLastKnownPosition();
