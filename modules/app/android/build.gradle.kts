@@ -15,13 +15,9 @@ subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
-subprojects {
-    project.evaluationDependsOn(":app")
-}
-
-// mapbox_maps_flutter (via flutter_plugin_android_lifecycle) requires compileSdk
-// 36, which the plugin modules don't pick up from the app — force it on every
-// Android module. Flutter's default is still 35.
+// mapbox_maps_flutter pins compileSdk 35 but (via flutter_plugin_android_lifecycle)
+// must compile against 36 — force 36 on every Android module. Declared before the
+// evaluationDependsOn block so :app isn't already evaluated when this registers.
 subprojects {
     afterEvaluate {
         extensions.findByName("android")?.let { android ->
@@ -30,6 +26,10 @@ subprojects {
             }
         }
     }
+}
+
+subprojects {
+    project.evaluationDependsOn(":app")
 }
 
 tasks.register<Delete>("clean") {
