@@ -20,9 +20,7 @@ if (hasReleaseSigning) {
 
 android {
     namespace = "com.croxoner.mapka"
-    // Forced to 36: mapbox_maps_flutter's flutter_plugin_android_lifecycle
-    // requires compileSdk >= 36 (Flutter's default is still 35).
-    compileSdk = 36
+    compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
