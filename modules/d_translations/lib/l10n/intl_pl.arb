@@ -22,5 +22,7 @@
   "f_home_location_denied": "Potrzebujemy dostępu do lokalizacji, aby pokazać, gdzie jesteś.",
   "f_home_location_disabled": "Usługi lokalizacji są wyłączone. Włącz je, aby zobaczyć swoją pozycję.",
   "f_home_recenter": "Wyśrodkuj na mojej lokalizacji",
-  "f_home_locating": "Ustalanie lokalizacji…"
+  "f_home_locating": "Ustalanie lokalizacji…",
+  "f_home_route_failed": "Nie udało się wyznaczyć trasy.",
+  "f_home_route_summary": "{minutes} min · {distance} km"
 }

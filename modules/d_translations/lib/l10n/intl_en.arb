@@ -49,5 +49,17 @@
   "f_home_locating": "Finding your location…",
   "@f_home_locating": {
     "description": "Shown in a small indicator while the first location fix is acquired."
+  },
+  "f_home_route_failed": "Couldn't find a route.",
+  "@f_home_route_failed": {
+    "description": "Snackbar shown when fetching a driving route fails."
+  },
+  "f_home_route_summary": "{minutes} min · {distance} km",
+  "@f_home_route_summary": {
+    "description": "Route chip label: travel time in minutes and distance in km.",
+    "placeholders": {
+      "minutes": {},
+      "distance": {}
+    }
   }
 }

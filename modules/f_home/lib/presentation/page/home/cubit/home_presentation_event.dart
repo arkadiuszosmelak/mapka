@@ -17,3 +17,7 @@ final class HomeLocationDisabled extends HomePresentationEvent {
 final class RecenterRequested extends HomePresentationEvent {
   const RecenterRequested();
 }
+
+final class HomeRouteFailed extends HomePresentationEvent {
+  const HomeRouteFailed();
+}

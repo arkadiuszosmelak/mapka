@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:d_directions/d_directions.dart';
 import 'package:d_location/d_location.dart';
 import 'package:d_translations/d_translations.dart';
 import 'package:design_system/design_system.dart';
@@ -7,6 +8,7 @@ import 'package:f_home/presentation/page/home/cubit/home_presentation_event.dart
 import 'package:f_home/presentation/page/home/cubit/home_state.dart';
 import 'package:f_home/presentation/page/home/home_map_controls.dart';
 import 'package:f_home/presentation/page/home/widgets/locating_indicator.dart';
+import 'package:f_home/presentation/page/home/widgets/route_chips.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooked_bloc/hooked_bloc.dart';
@@ -14,6 +16,9 @@ import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
 class HomePage extends HookWidget {
   const HomePage({super.key});
+
+  // Hardcoded test destination (Katowice centre) for route drawing.
+  static const GeoPoint _testDestination = GeoPoint(50.2599, 19.0216);
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +28,7 @@ class HomePage extends HookWidget {
 
     final ValueNotifier<MapboxMap?> map = useState<MapboxMap?>(null);
     final ObjectRef<bool> pendingRecenter = useRef<bool>(false);
+    final ObjectRef<PolylineAnnotationManager?> routeManager = useRef<PolylineAnnotationManager?>(null);
 
     final CameraOptions initialCamera = useMemoized(
       () => CameraOptions(
@@ -48,11 +54,22 @@ class HomePage extends HookWidget {
       controller.locateOn(location);
     }
 
+    Future<void> renderRoutes() async {
+      final MapboxMap? controller = map.value;
+      if (controller == null || state.routes.isEmpty) return;
+      routeManager.value ??= await controller.annotations.createPolylineAnnotationManager();
+      await routeManager.value!.drawRoutes(state.routes, state.selectedRouteIndex);
+    }
+
     void _listener(HomePresentationEvent event) {
       switch (event) {
         case RecenterRequested():
           final UserLocation? location = cubit.state.location;
           if (location != null) locate(location);
+        case HomeRouteFailed():
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(strings.f_home_route_failed)),
+          );
         case HomeLocationDisabled():
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(strings.f_home_location_disabled)),
@@ -114,13 +131,41 @@ class HomePage extends HookWidget {
       <Object?>[state.location, map.value],
     );
 
+    useEffect(
+      () {
+        renderRoutes();
+        return null;
+      },
+      <Object?>[state.routes, state.selectedRouteIndex, map.value],
+    );
+
+    final List<String> routeLabels = <String>[
+      for (final MapRoute route in state.routes)
+        strings.f_home_route_summary(
+          (route.durationSeconds / 60).round(),
+          (route.distanceMeters / 1000).toStringAsFixed(1),
+        ),
+    ];
+
     return Scaffold(
       floatingActionButton: state.location == null
           ? null
-          : FloatingActionButton(
-              tooltip: strings.f_home_recenter,
-              onPressed: cubit.recenter,
-              child: Icon(state.isFollowing ? Icons.my_location : Icons.location_searching),
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                FloatingActionButton.small(
+                  heroTag: 'route',
+                  onPressed: () => cubit.requestRoute(_testDestination),
+                  child: const Icon(Icons.directions),
+                ),
+                SizedBox(height: context.spacing.s),
+                FloatingActionButton(
+                  heroTag: 'recenter',
+                  tooltip: strings.f_home_recenter,
+                  onPressed: cubit.recenter,
+                  child: Icon(state.isFollowing ? Icons.my_location : Icons.location_searching),
+                ),
+              ],
             ),
       body: Stack(
         children: <Widget>[
@@ -133,8 +178,19 @@ class HomePage extends HookWidget {
               map.value = mapboxMap;
             },
             onScrollListener: (MapContentGestureContext _) => cubit.stopFollowing(),
+            // ignore: deprecated_member_use
+            onLongTapListener: (MapContentGestureContext context) {
+              final Position position = context.point.coordinates;
+              cubit.addWaypoint(GeoPoint(position.lat.toDouble(), position.lng.toDouble()));
+            },
           ),
           if (isLocating) LocatingIndicator(label: strings.f_home_locating),
+          if (routeLabels.isNotEmpty)
+            RouteChips(
+              labels: routeLabels,
+              selectedIndex: state.selectedRouteIndex,
+              onSelected: cubit.selectRoute,
+            ),
         ],
       ),
     );

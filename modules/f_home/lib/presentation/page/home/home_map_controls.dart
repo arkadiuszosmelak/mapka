@@ -1,11 +1,8 @@
+import 'package:d_directions/d_directions.dart';
 import 'package:d_location/d_location.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
-/// Camera + ornament helpers for the home map, keeping `HomePage` thin.
 extension HomeMapControls on MapboxMap {
-  /// Fixed on purpose: deriving zoom from `cameraForCoordinateBounds` reads the
-  /// view size, unreliable right after creation (buffer starts at 64x64) and
-  /// intermittently snapped the camera out to the globe.
   static const double _locateZoom = 15;
 
   static const int _animationMs = 800;
@@ -55,6 +52,37 @@ extension HomeMapControls on MapboxMap {
         zoom: _locateZoom,
       ),
       MapAnimationOptions(duration: _animationMs),
+    );
+  }
+}
+
+extension RoutePolyline on PolylineAnnotationManager {
+  static const int _selectedColor = 0xFF1E88E5;
+  static const int _alternativeColor = 0xFF9E9E9E;
+  static const double _selectedWidth = 7;
+  static const double _alternativeWidth = 5;
+
+  /// Redraws all [routes]: alternatives in grey underneath, the selected one in
+  /// thick blue on top.
+  Future<void> drawRoutes(List<MapRoute> routes, int selectedIndex) async {
+    await deleteAll();
+    for (int i = 0; i < routes.length; i++) {
+      if (i != selectedIndex) {
+        await create(_routeOptions(routes[i], selected: false));
+      }
+    }
+    if (selectedIndex >= 0 && selectedIndex < routes.length) {
+      await create(_routeOptions(routes[selectedIndex], selected: true));
+    }
+  }
+
+  PolylineAnnotationOptions _routeOptions(MapRoute route, {required bool selected}) {
+    return PolylineAnnotationOptions(
+      geometry: LineString(
+        coordinates: route.points.map((GeoPoint p) => Position(p.longitude, p.latitude)).toList(),
+      ),
+      lineColor: selected ? _selectedColor : _alternativeColor,
+      lineWidth: selected ? _selectedWidth : _alternativeWidth,
     );
   }
 }

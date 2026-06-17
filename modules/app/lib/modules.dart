@@ -1,4 +1,5 @@
 import 'package:core/core.dart';
+import 'package:d_directions/d_directions.dart';
 import 'package:d_location/d_location.dart';
 import 'package:f_home/f_home.dart';
 import 'package:f_onboarding/f_onboarding.dart';
@@ -8,6 +9,7 @@ import 'package:f_onboarding/f_onboarding.dart';
 /// this list automatically.
 const List<ModuleManifest> appModules = <ModuleManifest>[
   DLocationModule(),
+  DDirectionsModule(),
   OnboardingModule(),
   HomeModule(),
 ];

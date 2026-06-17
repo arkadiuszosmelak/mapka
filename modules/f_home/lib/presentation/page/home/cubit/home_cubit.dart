@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:core/core.dart';
+import 'package:d_directions/d_directions.dart';
 import 'package:d_location/d_location.dart';
 import 'package:f_home/presentation/page/home/cubit/home_presentation_event.dart';
 import 'package:f_home/presentation/page/home/cubit/home_state.dart';
@@ -8,9 +9,10 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class HomeCubit extends BaseCubit<HomeState, HomePresentationEvent> {
-  HomeCubit(this._locationService) : super(const HomeState());
+  HomeCubit(this._locationService, this._directionsService) : super(const HomeState());
 
   final LocationService _locationService;
+  final DirectionsService _directionsService;
   StreamSubscription<UserLocation>? _subscription;
   bool _firstFix = true;
 
@@ -60,6 +62,42 @@ class HomeCubit extends BaseCubit<HomeState, HomePresentationEvent> {
     if (state.location == null) return;
     if (!state.isFollowing) emit(state.copyWith(isFollowing: true));
     emitPresentation(const RecenterRequested());
+  }
+
+  /// Routes from the current position to [destination] (with alternatives).
+  Future<void> requestRoute(GeoPoint destination) async {
+    if (state.location == null) return;
+    emit(state.copyWith(destination: destination, clearWaypoint: true));
+    await _fetchRoutes(destination, const <GeoPoint>[]);
+  }
+
+  /// Re-routes through [waypoint] to the current destination (single route).
+  Future<void> addWaypoint(GeoPoint waypoint) async {
+    final GeoPoint? destination = state.destination;
+    if (destination == null || state.location == null) return;
+    emit(state.copyWith(waypoint: waypoint));
+    await _fetchRoutes(destination, <GeoPoint>[waypoint]);
+  }
+
+  void selectRoute(int index) {
+    if (index != state.selectedRouteIndex && index >= 0 && index < state.routes.length) {
+      emit(state.copyWith(selectedRouteIndex: index));
+    }
+  }
+
+  Future<void> _fetchRoutes(GeoPoint destination, List<GeoPoint> waypoints) async {
+    final UserLocation? origin = state.location;
+    if (origin == null) return;
+
+    final Result<List<MapRoute>> result = await _directionsService.fetchRoutes(
+      origin: GeoPoint(origin.latitude, origin.longitude),
+      destination: destination,
+      waypoints: waypoints,
+    );
+    result.fold(
+      onSuccess: (List<MapRoute> routes) => emit(state.copyWith(routes: routes, selectedRouteIndex: 0)),
+      onFailure: (AppError _) => emitPresentation(const HomeRouteFailed()),
+    );
   }
 
   void _onPermissionFailure(AppError error) {
