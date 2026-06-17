@@ -89,6 +89,7 @@ class HomeCubit extends BaseCubit<HomeState, HomePresentationEvent> {
     final UserLocation? origin = state.location;
     if (origin == null) return;
 
+    emit(state.copyWith(routes: const <MapRoute>[], selectedRouteIndex: 0));
     final Result<List<MapRoute>> result = await _directionsService.fetchRoutes(
       origin: GeoPoint(origin.latitude, origin.longitude),
       destination: destination,

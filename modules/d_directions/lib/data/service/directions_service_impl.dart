@@ -20,6 +20,9 @@ class DirectionsServiceImpl implements DirectionsService {
     required GeoPoint destination,
     List<GeoPoint> waypoints = const <GeoPoint>[],
   }) async {
+    // driving-traffic allows at most 3 coordinates (origin + 1 waypoint + dest).
+    assert(waypoints.length <= 1, 'driving-traffic supports at most one waypoint');
+
     if (!MapboxConfig.hasToken) {
       return const Result<List<MapRoute>>.failure(NetworkError('Missing Mapbox access token.'));
     }

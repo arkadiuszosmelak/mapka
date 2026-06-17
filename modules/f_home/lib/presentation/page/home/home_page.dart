@@ -56,7 +56,11 @@ class HomePage extends HookWidget {
 
     Future<void> renderRoutes() async {
       final MapboxMap? controller = map.value;
-      if (controller == null || state.routes.isEmpty) return;
+      if (controller == null) return;
+      if (state.routes.isEmpty) {
+        await routeManager.value?.deleteAll();
+        return;
+      }
       routeManager.value ??= await controller.annotations.createPolylineAnnotationManager();
       await routeManager.value!.drawRoutes(state.routes, state.selectedRouteIndex);
     }
